@@ -5,7 +5,7 @@ import java.io.*;
 
 class uktous
 {
-	public static void main(String a[]){
+	public static void main(String args[]){
 		Scanner s=new Scanner(System.in);
 String msg = s.nextLine();
 String ukwords[];
