@@ -3532,7 +3532,9 @@ try {
             FileWriter fw = new FileWriter(newTextFile);
             fw.write(uktext);
             fw.close();
-
+			if(newTextFile.exists()){
+    	System.out.println("File Generated Sucessfully");
+   		 }
         } catch (IOException iox) {
             iox.printStackTrace();
         }
@@ -3549,6 +3551,7 @@ try {
     }
    
     System.out.println(result);*/
+    
     file.close();
 }
 }
