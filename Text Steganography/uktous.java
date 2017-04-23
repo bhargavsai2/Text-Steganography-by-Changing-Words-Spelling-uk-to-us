@@ -1,13 +1,26 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-
+import java.io.File;
 
 class uktous
 {
-	public static void main(String args[]){
-		Scanner s=new Scanner(System.in);
-String msg = s.nextLine();
+	public static void main(String a[]) throws IOException{
+		FileReader file = new FileReader("ukfile.txt");
+    	BufferedReader reader = new BufferedReader(file);
+    String ukfiletext = "";
+    String line = reader.readLine();
+
+    while (line != null) {
+        ukfiletext += line;
+        line = reader.readLine();
+    }
+
+String uktext = ukfiletext;
+String ustext=uktext;
+String[] ustokens=uktext.split(" ");
+//System.out.println(ustokens.length);
+int count=0;
 String ukwords[];
 //ukwords= new String[]{"accommodation","action replay","aerofoil","colour","aeroplane"};
 ukwords=new String[]{
@@ -1627,7 +1640,7 @@ ukwords=new String[]{
 "travellers",
 "travelling",
 "travelogue",
-"travelogues ",
+"travelogues",
 "trialled",
 "trialling",
 "tricolour",
@@ -1739,21 +1752,21 @@ ukwords=new String[]{
 "woollens",
 "woollies",
 "woolly",
-"worshipped ",
-"worshipping ",
+"worshipped",
+"worshipping",
 "worshipper",
 "yodelled",
 "yodelling",
 "yoghourt",
 "yoghourts",
 "yoghurt",
-"yoghurts",
+"yoghurts"
 };
 
 String uswords[];
 //uswords= new String[]{"accommodations","instant replay","airfoil","color","airplane"};
 uswords=new String[]{
-	"accessorize",
+"accessorize",
 "accessorized",
 "accessorizes",
 "accessorizing",
@@ -3482,14 +3495,14 @@ uswords=new String[]{
 "woolies",
 "wooly",
 "worshiped",
-"worshiping ",
+"worshiping",
 "worshiper",
 "yodeled",
 "yodeling",
 "yogurt",
 "yogurts",
 "yogurt",
-"yogurts",
+"yogurts"
 };
 //String[] words=msg.split(" ");
 //for(String word:words){
@@ -3498,10 +3511,44 @@ uswords=new String[]{
 //msg=msg.replaceAll("color","colour");
 //msg=msg.replaceAll("aeroplane","airplane");
 for(int i=0;i<ukwords.length;i++){
-	msg=msg.replaceAll(ukwords[i],uswords[i]);
+	uktext=uktext.replaceAll(ukwords[i],uswords[i]);
 }
-System.out.println(msg);
-//}
+//System.out.println(ustext);
+//System.out.println(uktext);
+String[] uktokens=uktext.split(" ");
+//System.out.println(uktokens.length);
+if(uktokens.length!=ustokens.length)
+System.out.println("check spelling");
+for(int i=0;i<ustokens.length;i++){
+	if(!ustokens[i].equals(uktokens[i])){
+		count++;
+	}
+}
+System.out.println("total number of words changed="+count);
+try {
+          
+            File newTextFile = new File("usfile.txt");
 
+            FileWriter fw = new FileWriter(newTextFile);
+            fw.write(uktext);
+            fw.close();
+
+        } catch (IOException iox) {
+            iox.printStackTrace();
+        }
+//byte[] bytes=msg.getBytes();
+
+//}
+ /*String result = "";
+ int res;
+    char[] messChar = msg.toCharArray();
+
+    for (int i = 0; i < messChar.length; i++) {
+        result += Integer.toBinaryString(messChar[i]) + "\n";
+        //res=Integer.parseInt(result);
+    }
+   
+    System.out.println(result);*/
+    file.close();
 }
 }
