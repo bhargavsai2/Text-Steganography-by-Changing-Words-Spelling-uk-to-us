@@ -3525,32 +3525,42 @@ System.out.println("check spelling");
 for(int i=0;i<ustokens.length;i++){
 	if(!ustokens[i].equals(uktokens[i])){
 		count++;
+}
+}
+try {
+File stegofile = new File("steganofile.txt");
+FileWriter f = new FileWriter(stegofile);
+f.write("total number of words changed :"+count+"\n");
 		//System.out.println(uktokens[i]+" "+"changed as"+" "+ustokens[i]+" "+"that is at :"+i+" "+"postion");
 		//System.out.println(" ");
-		String steganotext=uktokens[i]+" "+"changed as"+" "+ustokens[i]+" "+"that is at :"+i+" "+"postion";
-		System.out.println(steganotext);
-		try {
+		
+		
           
-            File newTextFile = new File("steganofile.txt");
-
-            FileWriter f = new FileWriter(newTextFile,true);
+            for(int i=0;i<ustokens.length;i++){
+			if(!ustokens[i].equals(uktokens[i])){
+				String steganotext="'"+uktokens[i]+"'"+" "+"changed as"+" "+"'"+ustokens[i]+"'"+" "+"that is at :"+i+" "+"postion";
+				System.out.println(steganotext);
+			//File stegofile = new File("steganofile.txt");
+			//FileWriter f = new FileWriter(stegofile,true);
            // BufferedWriter bw=new BufferedWriter(f);
+            //f.write("total number of words changed :"+count);
             f.write(steganotext+"\n");
-            f.write("\n\n\n");
+           // f.write("\n\n\n");
+        
+			
+        } 
+        }
         f.flush();    
        	f.close();
-			
-        } catch (IOException iox) {
+	}catch (IOException iox) {
             iox.printStackTrace();
-        }
-	}
 }
 System.out.println("total number of words changed="+count);
 try {
           
-            File newTextFile = new File("usfile.txt");
+            File usfile = new File("usfile.txt");
 
-            FileWriter fw = new FileWriter(newTextFile);
+            FileWriter fw = new FileWriter(usfile);
             //for(int j=0;j<stringarray.length;j++){
             //	if(stringarray[j].equals(".")){
             //		fw.write("\n");
@@ -3558,7 +3568,7 @@ try {
             //}
             fw.write(uktext);
             fw.close();
-			if(newTextFile.exists()){
+			if(usfile.exists()){
     	System.out.println("File Generated Sucessfully");
    		 }
         } catch (IOException iox) {
