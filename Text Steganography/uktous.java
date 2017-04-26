@@ -20,6 +20,9 @@ String uktext = ukfiletext;
 String ustext=uktext;
 String[] ustokens=uktext.split(" ");
 //System.out.println(ustokens.length);
+//for(int i=0;i<ustokens.length;i++)
+//System.out.println(ustokens[i]);
+char[] stringarray=uktext.toCharArray();
 int count=0;
 String ukwords[];
 //ukwords= new String[]{"accommodation","action replay","aerofoil","colour","aeroplane"};
@@ -2658,7 +2661,7 @@ uswords=new String[]{
 "licensed",
 "licenses",
 "licensing",
-"likable ",
+"likable",
 "lionization",
 "lionize",
 "lionized",
@@ -3522,6 +3525,24 @@ System.out.println("check spelling");
 for(int i=0;i<ustokens.length;i++){
 	if(!ustokens[i].equals(uktokens[i])){
 		count++;
+		//System.out.println(uktokens[i]+" "+"changed as"+" "+ustokens[i]+" "+"that is at :"+i+" "+"postion");
+		//System.out.println(" ");
+		String steganotext=uktokens[i]+" "+"changed as"+" "+ustokens[i]+" "+"that is at :"+i+" "+"postion";
+		System.out.println(steganotext);
+		try {
+          
+            File newTextFile = new File("steganofile.txt");
+
+            FileWriter f = new FileWriter(newTextFile,true);
+           // BufferedWriter bw=new BufferedWriter(f);
+            f.write(steganotext+"\n");
+            f.write("\n\n\n");
+        f.flush();    
+       	f.close();
+			
+        } catch (IOException iox) {
+            iox.printStackTrace();
+        }
 	}
 }
 System.out.println("total number of words changed="+count);
@@ -3530,6 +3551,11 @@ try {
             File newTextFile = new File("usfile.txt");
 
             FileWriter fw = new FileWriter(newTextFile);
+            //for(int j=0;j<stringarray.length;j++){
+            //	if(stringarray[j].equals(".")){
+            //		fw.write("\n");
+            //	}
+            //}
             fw.write(uktext);
             fw.close();
 			if(newTextFile.exists()){
@@ -3551,7 +3577,7 @@ try {
     }
    
     System.out.println(result);*/
-    
+  
     file.close();
 }
 }
