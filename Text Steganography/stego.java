@@ -18,24 +18,45 @@ import javax.swing.*;
 
 
 /* Name of the class has to be "Main" only if the class is public. */
- public class stego extends JFrame
+public class stego extends JFrame implements ActionListener
 {
-    public static void main (String[] args) throws java.lang.Exception
+    private String inpstr;
+  
+    JTextField t2;  JButton b; JLabel lb;
+      test(){
+    JFrame fr= new JFrame("Steganography");  
     
-    {
-        // yet to test
-         JFrame frame = new JFrame("testing");
-           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           frame.setSize(300,300);
-          JPanel panel = new JPanel(); // the panel is not visible in output
-          JLabel label = new JLabel("Enter Text");
-          JTextField tf = new JTextField(100);// accepts upto 10 characters
-          JButton send = new JButton("Send");
-         panel.add(label);// Components Added using Flow Layout
-         panel.add(tf);
-         panel.add(send);
+   lb=new JLabel("enter text to hide");
+   lb.setBounds(50,20,100,30);
+    t2=new JTextField();  
+    t2.setBounds(50,50,200,30);  
+    b=new JButton("Click Here");  
+    b.setBounds(50,100,95,30);  
+    fr.add(t2); fr.add(b);  fr.add(lb);
+    fr.setSize(400,400);  
+    fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fr.setLayout(null);  
+    fr.setVisible(true);  
+}
+public void actionPerformed(ActionEvent e){
      
-          frame.setVisible(true);
+    if(e.getSource()==b){
+        String inpstr=t2.getText(); 
+   } 
+
+}
+
+	public static void main (String[] args) throws java.lang.Exception
+	   
+	{
+         //my test
+        test t=new test();
+
+
+
+		//Scanner s=new Scanner(System.in);
+		//System.out.print("Enter the message: ");
+		String str=t.inpstr;//s.nextLine();
         //ends here
         Scanner s=new Scanner(System.in);
         System.out.print("Enter the message: ");
