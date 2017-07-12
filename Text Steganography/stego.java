@@ -34,9 +34,9 @@ public class stego extends JFrame implements ActionListener
     t2.setBounds(50,50,200,30);  
     b=new JButton("Click Here");  
     b.setBounds(50,100,95,30);  
-   // lb1=new JLabel("Your files are generated");
-    //lb1.setBounds(50,200,200,30);
-    fr.add(t2); fr.add(b);  fr.add(lb);
+ 
+    //lb1.setBounds(50,100,200,30);
+    fr.add(t2); fr.add(b);  fr.add(lb); //fr.add(lb1);
     fr.setSize(400,400);  
     fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     fr.setLayout(null);  
@@ -50,6 +50,8 @@ public class stego extends JFrame implements ActionListener
 			{
 			str=t2.getText();
 			steganography_and_encryption();
+            JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile\ndecipherfile");
+      //     
 			//System.out.println(str);
 			}
 			catch(Exception e)
@@ -64,7 +66,7 @@ public class stego extends JFrame implements ActionListener
 public void actionPerformed(ActionEvent e){
      
     if(e.getSource()==b){
-        //inpstr=t2.getText(); 
+    //   lb1.setText("*covertext");
    } 
 
 }
