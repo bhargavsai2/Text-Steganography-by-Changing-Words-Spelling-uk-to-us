@@ -161,8 +161,8 @@ public void steganography_and_encryption() throws Exception
      };
 
 //these are the words considered as cover message
- String[] ukwords={
-     "accessorise",
+ String[] ukwords1={
+  "accessorise",
 "accessorised",
 "accessorises",
 "accessorising",
@@ -177,7 +177,7 @@ public void steganography_and_encryption() throws Exception
 "aerogramme",
 "aerogrammes",
 "aeroplane",
-"aeroplanes",
+"aeroplanes ",
 "aesthete",
 "aesthetes",
 "aesthetic",
@@ -188,6 +188,48 @@ public void steganography_and_encryption() throws Exception
 "aggrandisement",
 "agonise",
 "agonised",
+"agonises",
+"agonising",
+"agonisingly",
+"almanack",
+"almanacks",
+"aluminium",
+"amortisable",
+"amortisation",
+"amortisations",
+"amortise",
+"amortised",
+"amortises",
+"amortising",
+"amphitheatre",
+"amphitheatres",
+"anaemia",
+"anaemic",
+"anaesthesia",
+"anaesthetic",
+"anaesthetics",
+"anaesthetise",
+"anaesthetised",
+"anaesthetises",
+"anaesthetising",
+"anaesthetist",
+"anaesthetists",
+"anaesthetize",
+"anaesthetized",
+"anaesthetizes",
+"anaesthetizing",
+"analogue",
+"analogues",
+"analyse",
+"analysed",
+"analyses",
+"analysing",
+"anglicise",
+"anglicised",
+"anglicises"
+     
+ };
+ String[] ukwords2={
 "backpedalled",
 "backpedalling",
 "bannister",
@@ -203,6 +245,48 @@ public void steganography_and_encryption() throws Exception
 "battleaxe",
 "baulk",
 "baulked",
+"baulking",
+"baulks",
+"bedevilled",
+"bedevilling",
+"behaviour",
+"behavioural",
+"behaviourism",
+"behaviourist",
+"behaviourists",
+"behaviours",
+"behove",
+"behoved",
+"behoves",
+"bejewelled",
+"belabour",
+"belaboured",
+"belabouring",
+"belabours",
+"bevelled",
+"bevvies",
+"bevvy",
+"biassed",
+"biassing",
+"bingeing",
+"bougainvillaea",
+"bougainvillaeas",
+"bowdlerise",
+"bowdlerised",
+"bowdlerises",
+"bowdlerising",
+"breathalyse",
+"breathalysed",
+"breathalyser",
+"breathalysers",
+"breathalyses",
+"breathalysing",
+"brutalise",
+"brutalised",
+"brutalises",
+"brutalising",
+"buses",
+"busing",
 "caesarean",
 "caesareans",
 "calibre",
@@ -210,38 +294,115 @@ public void steganography_and_encryption() throws Exception
 "calliper",
 "callipers",
 "callisthenics",
-"canalise",
-"canalised",
-"canalises",
-"canalising",
-"cancellation",
-"cancellations",
-"cancelled",
-"cancelling",
-"candour",
-"cannibalise",
-"cannibalised",
-"cannibalises",
-"cannibalising",
-"canonise",
-"galvanise",
-"galvanised",
-"galvanises",
-"galvanising"
+"canalise"
+ }; 
+ String[] ukwords3={
+"decentralisation",
+"decentralise",
+"decentralised",
+"decentralises",
+"decentralising",
+"decriminalisation",
+"decriminalise",
+"decriminalised",
+"decriminalises",
+"decriminalising",
+"defence",
+"defenceless",
+"defences",
+"dehumanisation",
+"dehumanise",
+"dehumanised",
+"dehumanises",
+"dehumanising",
+"demeanour",
+"demilitarisation",
+"demilitarise",
+"demilitarised",
+"demilitarises",
+"demilitarising",
+"demobilisation",
+"demobilise",
+"demobilised",
+"demobilises",
+"demobilising",
+"democratisation",
+"democratise",
+"democratised",
+"democratises",
+"democratising",
+"demonise",
+"demonised",
+"demonises",
+"demonising",
+"demoralisation",
+"demoralise",
+"demoralised",
+"demoralises",
+"demoralising",
+"denationalisation",
+"denationalise",
+"denationalised",
+"denationalises",
+"denationalising",
+"deodorise",
+"deodorised",
+"deodorises",
+"deodorising",
+"depersonalise",
+"depersonalised",
+"depersonalises",
+"depersonalising",
+"deputise",
+"deputised",
+"deputises",
+"deputising",
+"desensitisation",
+"desensitise",
+"desensitised",
+"desensitises",
+"desensitising"
 
-     
  };
  //as replaceAll tends to some buggy situations better we use another Array of String and do it
- String ukwordsupper[]=new String[ukwords.length];
- for(int j=0;j<ukwords.length;j++){
-     ukwordsupper[j]=ukwords[j].toUpperCase();
-     //System.out.println(ukwordsupper[j]+" ");
- }
+    String ukwordsupper1[]=new String[ukwords1.length];
+    String ukwordsupper2[]=new String[ukwords2.length];
+    String ukwordsupper3[]=new String[ukwords3.length];
+    for(int j=0;j<ukwords1.length;j++){
+        ukwordsupper1[j]=ukwords1[j].toUpperCase();
+        ukwordsupper2[j]=ukwords2[j].toUpperCase();
+        ukwordsupper3[j]=ukwords3[j].toUpperCase();
+        //System.out.println(ukwordsupper[j]+" ");
+    }
 
      //finding all occurances of alphabets and change them to words
-     for(int i=0;i<cover.length;i++){
-         str=str.replace(cover[i],ukwordsupper[i]);
-     }
+     for(int i=0;i<cover.length;i+=2){
+   
+          
+
+            str=str.replace(cover[i],ukwordsupper1[i]);
+        
+            
+
+        }
+        for(int i=1;i<cover.length;i+=2){
+   
+          
+
+            str=str.replace(cover[i],ukwordsupper2[i]);
+        
+               
+
+        }
+         for(int i=2;i<cover.length;i+=3){
+   
+          
+
+            str=str.replace(cover[i],ukwordsupper3[i]);
+        
+               
+
+        }
          //for testing
      str=str.toLowerCase();
          System.out.println("Cover Text is: "+str+".");

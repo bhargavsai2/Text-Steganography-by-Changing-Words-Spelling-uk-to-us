@@ -1,12 +1,29 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
+import java.security.*;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
+import javax.swing.*;  
+import java.awt.*;  
+import java.awt.event.*;  
+
 
 /* Name of the class has to be "Main" only if the class is public. */
-class test
+public class test
 {
+
+
 	public static void main (String[] args) throws java.lang.Exception
+	   
 	{
+         //my test
+     
+
+
 		Scanner s=new Scanner(System.in);
 		System.out.print("Enter the message: ");
 		String str=s.nextLine();
@@ -16,6 +33,7 @@ class test
 		//char[] strarr=str.toCharArray();
 	//	String str1 = String.valueOf(strarr);
 		String[] strarr=str.split(" ");
+
 		System.out.println("your message :"+str);
 	//	System.out.println(strarr.length);
 //	for(int i=0;i<strarr.length;i++)
@@ -53,7 +71,7 @@ class test
 		};
 
 //these are the words considered as cover message
-	String[] ukwords={
+	String[] ukwords1={
 		"accessorise",
 "accessorised",
 "accessorises",
@@ -69,7 +87,7 @@ class test
 "aerogramme",
 "aerogrammes",
 "aeroplane",
-"aeroplanes ",
+"aeroplanes",
 "aesthete",
 "aesthetes",
 "aesthetic",
@@ -82,18 +100,103 @@ class test
 "agonised"
 		
 	};
+    String[] ukwords2={
+        "backpedalled",
+"backpedalling",
+"bannister",
+"bannisters",
+"baptise",
+"baptised",
+"baptises",
+"baptising",
+"bastardise",
+"bastardised",
+"bastardises",
+"bastardising",
+"battleaxe",
+"baulk",
+"baulked",
+"baulking",
+"baulks",
+"bedevilled",
+"bedevilling",
+"behaviour",
+"behavioural",
+"behaviourism",
+"behaviourist",
+"behaviourists",
+"behaviours",
+"behove"
+    };
+    String[] ukwords3={
+        "caesarean",
+"caesareans",
+"calibre",
+"calibres",
+"calliper",
+"callipers",
+"callisthenics",
+"canalise",
+"canalised",
+"canalises",
+"canalising",
+"cancellation",
+"cancellations",
+"cancelled",
+"cancelling",
+"candour",
+"cannibalise",
+"cannibalised",
+"cannibalises",
+"cannibalising",
+"canonise",
+"canonised",
+"canonises",
+"canonising",
+"capitalise",
+"capitalised"
+    };
 	//as replaceAll tends to some buggy situations better we use another Array of String and do it
-	String ukwordsupper[]=new String[ukwords.length];
-	for(int j=0;j<ukwords.length;j++){
-		ukwordsupper[j]=ukwords[j].toUpperCase();
+	String ukwordsupper1[]=new String[ukwords1.length];
+    String ukwordsupper2[]=new String[ukwords2.length];
+    String ukwordsupper3[]=new String[ukwords3.length];
+	for(int j=0;j<ukwords1.length;j++){
+		ukwordsupper1[j]=ukwords1[j].toUpperCase();
+        ukwordsupper2[j]=ukwords2[j].toUpperCase();
+        ukwordsupper3[j]=ukwords3[j].toUpperCase();
 		//System.out.println(ukwordsupper[j]+" ");
 	}
 
 		//finding all occurances of alphabets and change them to words
-		for(int i=0;i<cover.length;i++){
-			str=str.replace(cover[i],ukwordsupper[i]);
+		for(int i=0;i<cover.length;i+=2){
+   
+          
+
+			str=str.replaceFirst(cover[i],ukwordsupper1[i]);
+           // i++;
+               // str=str.replace(cover[i],ukwordsupper2[i]);
+
 		}
+       for(int i=1;i<cover.length;i+=2){
+   
+          
+
+            str=str.replaceFirst(cover[i],ukwordsupper2[i]);
+        
+               
+
+        }
+     for(int i=2;i<cover.length;i+=3){
+   
+          
+
+            str=str.replaceFirst(cover[i],ukwordsupper3[i]);
+        
+               
+
+        }
 			//for testing
+		str=str.toLowerCase();
 			System.out.println("Cover Text is: "+str+".");
 
 			String[] replacesplit= str.split(" ");
@@ -104,13 +207,16 @@ class test
 				File confirm = new File("confirm.txt");
 				FileWriter f = new FileWriter(confirm);
 		
-		
+		 
 		
           
             for(int i=0;i<strarr.length;i++){
 				String steganotext="'"+strarr[i]+"'"+" "+"hidden in"+" "+"'"+replacesplit[i]+"'";
+                //System.out.println(str1);
 				System.out.println(steganotext);
-            f.write(steganotext+"\n");
+               
+                f.write(steganotext+"\n");
+
            // f.write("\n\n\n");
         
 			
@@ -134,16 +240,119 @@ class test
             fw.write(str+".");
             fw.close();
 			if(coverfile.exists()){
-    	System.out.println("File Generated Sucessfully");
+    	System.out.println("Cover File Generated Sucessfully");
    		 }
         } catch (IOException iox) {
             iox.printStackTrace();
         }
 
 
-        //deciphering process continues here
+        //Encryption and decryption
 
 
+
+
+        String plainText = str;
+        SecretKey secKey = getSecretEncryptionKey();
+
+        byte[] cipherText = encryptText(plainText, secKey);
+
+        String decryptedText = decryptText(cipherText, secKey);
+
+         
+
+      //  System.out.println("Original Text:" + plainText);
+
+        System.out.println("AES Key (Hex Form):"+bytesToHex(secKey.getEncoded()));
+
+       // System.out.println("Encrypted Text (Hex Form):"+bytesToHex(cipherText));
+
+       // System.out.println("Descrypted Text:"+decryptedText);
+
+         String cipherstring=bytesToHex(cipherText); //i have stored in byte[] as it is unreadable
+
+
+
+// creating the cipher file
+
+
+
+         	try {
+          
+            File cipherfile = new File("Cipherfile.txt");
+
+            FileWriter fw = new FileWriter(cipherfile);
+         
+            fw.write(cipherstring);
+            fw.close();
+			if(cipherfile.exists()){
+    	System.out.println("CipherFile Generated Sucessfully");
+   		 }
+        } catch (IOException iox) {
+            iox.printStackTrace();
+        }
+
+
+
+ // creating decipher file
+ try {
+          
+            File decipherfile = new File("Decipherfile.txt");
+
+            FileWriter fw = new FileWriter(decipherfile);
+         
+            fw.write(decryptedText);
+            fw.close();
+			if(decipherfile.exists()){
+    	System.out.println("DecipherFile Generated Sucessfully");
+   		 }
+        } catch (IOException iox) {
+            iox.printStackTrace();
+        }       
+
+    }
+
+    public static SecretKey getSecretEncryptionKey() throws Exception{
+
+        KeyGenerator generator = KeyGenerator.getInstance("AES");
+
+        generator.init(128); // The AES key size in number of bits
+
+        SecretKey secKey = generator.generateKey();
+
+        return secKey;
+
+    }
+
+    public static byte[] encryptText(String plainText,SecretKey secKey) throws Exception{
+        // AES defaults to AES/ECB/PKCS5Padding in Java 7
+
+        Cipher aesCipher = Cipher.getInstance("AES");
+
+        aesCipher.init(Cipher.ENCRYPT_MODE, secKey);
+        byte[] byteCipherText = aesCipher.doFinal(plainText.getBytes());
+
+        return byteCipherText;
+
+    }
+
+    public static String decryptText(byte[] byteCipherText, SecretKey secKey) throws Exception {
+
+        // AES defaults to AES/ECB/PKCS5Padding in Java 7
+
+        Cipher aesCipher = Cipher.getInstance("AES");
+
+        aesCipher.init(Cipher.DECRYPT_MODE, secKey);
+
+        byte[] bytePlainText = aesCipher.doFinal(byteCipherText);
+
+        return new String(bytePlainText);
+
+    }
+
+    private static String  bytesToHex(byte[] hash) {
+        return DatatypeConverter.printHexBinary(hash);
+    
 
 	}
 }
