@@ -20,10 +20,15 @@ import java.awt.event.ActionListener;
 public class stego extends JFrame implements ActionListener 
 {
      private static final String NULL = null;
-	//String inpstr="bhargav";
+     final static int NO_WORDS = 5;   
+    final static int NO_SENTS = 20; 
+    final static String SPACE = " ";    
+    final static String PERIOD = ".";
+    static Random r = new Random();
+    //String inpstr="bhargav";
     static String str="";
     JTextField t2;  JButton b; JLabel lb;//lb1;
-      stego(){
+     public stego(){
     JFrame fr= new JFrame("Steganography");  
     
    lb=new JLabel("enter text to hide");
@@ -42,25 +47,25 @@ public class stego extends JFrame implements ActionListener
     fr.setLayout(null);  
     fr.setVisible(true);  
     b.addActionListener(new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			try
-			{
-			str=t2.getText();
-			steganography_and_encryption();
+        
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            // TODO Auto-generated method stub
+            try
+            {
+            str=t2.getText();
+            steganography_and_encryption();
             JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile\ndecipherfile");
       //     
-			//System.out.println(str);
-			}
-			catch(Exception e)
-			{
-			}
-			
-			
-		}
-	});
+            //System.out.println(str);
+            }
+            catch(Exception e)
+            {
+            }
+            
+            
+        }
+    });
 }
            
 public void actionPerformed(ActionEvent e){
@@ -73,7 +78,7 @@ public void actionPerformed(ActionEvent e){
 
 public void steganography_and_encryption() throws Exception
 {
-	 
+     
      System.out.print("Enter the message: ");
     // String str=s.nextLine();
      str=str.replaceAll(" ","").toLowerCase();
@@ -376,7 +381,7 @@ public void steganography_and_encryption() throws Exception
     }
 
      //finding all occurances of alphabets and change them to words
-     for(int i=0;i<cover.length;i+=2){
+     for(int i=0;i<cover.length;i++){
    
           
 
@@ -385,7 +390,7 @@ public void steganography_and_encryption() throws Exception
             
 
         }
-        for(int i=1;i<cover.length;i+=2){
+       /* for(int i=1;i<cover.length;i+=2){
    
           
 
@@ -402,7 +407,7 @@ public void steganography_and_encryption() throws Exception
         
                
 
-        }
+        }*/
          //for testing
      str=str.toLowerCase();
          System.out.println("Cover Text is: "+str+".");
@@ -433,6 +438,28 @@ public void steganography_and_encryption() throws Exception
          iox.printStackTrace();
 }
 
+    String[] temp=str.split(" ");
+    String article[] = { "the", "a", "one", "some", "any" };
+        String noun[] = { "boy", "girl", "dog", "cat", "rat" };
+        String verb[] = { "drove", "jumped", "ran", "walked", "skipped" };
+        String preposition[] = { "to", "from", "over", "under", "on" };
+
+        String sentence,temporary="";
+        for (int i = 0; i < temp.length; i++){
+            sentence = article[rand()];
+            char c = sentence.charAt(0);
+            sentence = sentence.replace( c, Character.toUpperCase(c) );
+            //sentence += SPACE + temp[i] + SPACE;
+            sentence += SPACE + noun[rand()] + SPACE;
+            sentence += (verb[rand()] + SPACE + preposition[rand()]);
+            sentence += (SPACE + article[rand()] + SPACE + temp[i] + SPACE + noun[rand()]);
+            sentence += PERIOD;
+            temporary+=sentence+"\n";
+            System.out.println(sentence);
+            sentence = "";
+        } 
+         
+
 
 
          //generating file
@@ -442,7 +469,7 @@ public void steganography_and_encryption() throws Exception
 
          FileWriter fw = new FileWriter(coverfile);
       
-         fw.write(str+".");
+         fw.write(temporary);
          fw.close();
          if(coverfile.exists()){
      System.out.println("Cover File Generated Sucessfully");
@@ -517,17 +544,17 @@ try {
      }
 
 
-	public static void main (String[] args) throws Exception
-	   
-	{
+    public static void main (String[] args) throws Exception
+       
+    {
          //my test
         stego t=new stego();
 
 
 
-		//Scanner s=new Scanner(System.in);
-		//System.out.print("Enter the message: ");
-//	String str=t.str;//s.nextLine();
+        //Scanner s=new Scanner(System.in);
+        //System.out.print("Enter the message: ");
+//  String str=t.str;//s.nextLine();
         //ends here
         //Scanner s=new Scanner(System.in);
           
@@ -576,5 +603,11 @@ try {
         return DatatypeConverter.printHexBinary(hash);
     
 
+    }
+   public static int rand(){
+        int ri = r.nextInt() % NO_WORDS;
+        if ( ri < 0 )
+            ri += NO_WORDS;
+        return ri;
     }
 }
