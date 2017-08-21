@@ -27,11 +27,11 @@ public class stego extends JFrame implements ActionListener
     static Random r = new Random();
     //String inpstr="bhargav";
     static String str="";
-    JTextField t2;  JButton b; JLabel lb;//lb1;
+    JTextField t2;  JButton sender,receiver; JLabel lb;//lb1;
      public stego(){
     JFrame fr= new JFrame("Steganography");  
     
-   lb=new JLabel("enter text to hide");
+  /* lb=new JLabel("enter text to hide");
    lb.setBounds(50,20,100,30);
     t2=new JTextField();  
     
@@ -65,12 +65,55 @@ public class stego extends JFrame implements ActionListener
             
             
         }
-    });
+    });*/
+    sender=new JButton("Sender");  
+    sender.setBounds(150,100,95,30); 
+    receiver=new JButton("Receiver");
+    receiver.setBounds(150,200,95,30);
+    fr.add(sender);
+    fr.add(receiver);
+    fr.setSize(400,400);  
+    fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fr.setLayout(null);  
+    fr.setVisible(true); 
+     sender.addActionListener(new ActionListener() {
+        
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+           JFrame panel=new JFrame();  
+           JLabel lb=new JLabel("input file");
+           lb.setBounds(50,20,100,30);
+           panel.add(lb);
+           panel.setSize(400,400);  
+        
+        panel.setLayout(null);  
+        panel.setVisible(true); 
+     
 }
-           
+ 
+});
+
+receiver.addActionListener(new ActionListener() {
+        
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+           JFrame panel1=new JFrame();  
+           JLabel lb1=new JLabel("cover file");
+           lb1.setBounds(50,20,100,30);
+           panel1.add(lb);
+           panel1.setSize(400,400);  
+        
+        panel1.setLayout(null);  
+        panel1.setVisible(true);
+        
+}
+ 
+});
+
+ }          
 public void actionPerformed(ActionEvent e){
      
-    if(e.getSource()==b){
+    if(e.getSource()==sender){
     //   lb1.setText("*covertext");
    } 
 
@@ -548,7 +591,17 @@ try {
        
     {
          //my test
-        stego t=new stego();
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    stego frame = new stego();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    
 
 
 
