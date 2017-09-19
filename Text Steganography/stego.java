@@ -1,4 +1,4 @@
-
+package steganography;
 /**
  * text Stego
  * 
@@ -17,6 +17,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 //import java.util.Base64;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,10 +32,13 @@ public class stego extends JFrame implements ActionListener {
     final static int NO_SENTS = 20;
     final static String SPACE = " ";
     final static String PERIOD = ".";
+    File file=null;
     static Random r = new Random();
     // String inpstr="bhargav";
     private static String str = "";
     private static String strtemp = "";
+    final JFileChooser fc = new JFileChooser();
+
     JTextField t2;
     JButton sender, receiver, jb1, jb2;
     JLabel lb;// lb1;
@@ -89,7 +93,7 @@ public class stego extends JFrame implements ActionListener {
                 jb1 = new JButton("RESET");
                 jb1.setBounds(50, 80, 100, 25);
 
-                jb2 = new JButton("RUN");
+                jb2 = new JButton("Browse");
                 jb2.setBounds(200, 80, 100, 25);
                 // tf.setB
                 panel.add(lb);
@@ -115,7 +119,17 @@ public class stego extends JFrame implements ActionListener {
                         //System.out.println("hghghghg");
                          try
                          {
-                             str=tf.getText();
+                        	 int returnVal = fc.showOpenDialog(stego.this);
+
+                             if (returnVal == JFileChooser.APPROVE_OPTION) {
+                                  file = fc.getSelectedFile();
+                                 //This is where a real application would open the file.
+                                //  tf.setText();
+                                
+                             }
+
+                        	 
+                             str=file.toString();
                              steganography_and_encryption(str);
                               //System.out.println(str);
                              JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile\ndecipherfile");
@@ -175,7 +189,23 @@ public class stego extends JFrame implements ActionListener {
                          {
                             
                           //still to do  
-                        decrypt_and_decode(strtemp);
+                        	 int returnVal = fc.showOpenDialog(stego.this);
+
+                             if (returnVal == JFileChooser.APPROVE_OPTION) {
+                                  file = fc.getSelectedFile();
+                                 //This is where a real application would open the file.
+                                  tf1.setText(file.getName());
+                                
+                             }
+
+                        	 
+                             String strdel=file.toString();
+                  //           steganography_and_encryption(str);
+                              //System.out.println(str);
+                            // JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile\ndecipherfile");
+                                //     
+                                //System.out.println(str);
+                       decrypt_and_decode(strtemp);
                          JOptionPane.showMessageDialog(null, "Message is in Originalfile!");
                         //JOptionPane.showMessageDialog(null,"This language just gets better and better!");
                                  }
