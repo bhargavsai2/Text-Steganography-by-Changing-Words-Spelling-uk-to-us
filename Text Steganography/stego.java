@@ -1,21 +1,28 @@
-package steganography;
+
 /**
- * text Stego
+ * Write a description of stego here.
  * 
- * @author bhargav 
- * @version 1.0
+ * @author bhargav
+ * @version 2.0 19-09-2017
  */
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-
+import java.io.*;
+import java.lang.*;
+import java.lang.StringBuilder;
+import java.lang.StringBuffer;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 //import java.util.Base64;
@@ -23,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileSystemView;
 import javax.xml.bind.DatatypeConverter;
 
 /* Name of the class has to be "Main" only if the class is public. */
@@ -33,19 +41,27 @@ public class stego extends JFrame implements ActionListener {
     final static String SPACE = " ";
     final static String PERIOD = ".";
     File file=null;
+    File file1=null;
     static Random r = new Random();
     // String inpstr="bhargav";
     private static String str = "";
     private static String strtemp = "";
-    final JFileChooser fc = new JFileChooser();
-
+    //final JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+    final JFileChooser fc1 = new JFileChooser("F:/java projects/steganography");
+    final JFileChooser fc2 = new JFileChooser("F:/java projects/steganography");
     JTextField t2;
     JButton sender, receiver, jb1, jb2;
-    JLabel lb;// lb1;
+    JLabel lb,heading;
 
     public stego() {
         JFrame fr = new JFrame("Steganography");
-
+        Image icon = Toolkit.getDefaultToolkit().getImage("icon.png"); 
+        fr.setIconImage(icon);  
+        try {
+            fr.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("background.jpg")))));
+        } catch (IOException n) {
+            n.printStackTrace();
+        }
         /*
          * lb=new JLabel("enter text to hide"); lb.setBounds(50,20,100,30);
          * t2=new JTextField();
@@ -69,11 +85,17 @@ public class stego extends JFrame implements ActionListener {
          * 
          * } });
          */
+        heading = new JLabel("Text Steganography tool");
+        heading.setBounds(130, 20, 150, 30);
+        heading.setFont(new Font("Serif", Font.BOLD, 14));
+        heading.setForeground(Color.RED);
         sender = new JButton("Sender");
         sender.setBounds(150, 100, 95, 30);
+        sender.setBackground(Color.GREEN);
         receiver = new JButton("Receiver");
         receiver.setBounds(150, 200, 95, 30);
-
+        receiver.setBackground(Color.YELLOW);
+        fr.add(heading);
         fr.add(sender);
         fr.add(receiver);
         fr.setSize(400, 400);
@@ -83,18 +105,28 @@ public class stego extends JFrame implements ActionListener {
         sender.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
-                JFrame panel = new JFrame();
+                JFrame panel = new JFrame("Encode");
+                Image icon = Toolkit.getDefaultToolkit().getImage("icon.png"); 
+                panel.setIconImage(icon);  
+                 try {
+                     panel.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("background.jpg")))));
+                    } catch (IOException n) {
+                        n.printStackTrace();
+                    }   
                 JLabel lb = new JLabel("input file !!!!!!");
                 lb.setBounds(50, 20, 100, 30);
-
+                lb.setFont(new Font("Serif", Font.BOLD, 14));
+                lb.setForeground(Color.RED);
                 final JTextField tf = new JTextField(20);
                 tf.setBounds(50, 50, 300, 20);
 
                 jb1 = new JButton("RESET");
                 jb1.setBounds(50, 80, 100, 25);
+                jb1.setBackground(Color.YELLOW);
 
                 jb2 = new JButton("Browse");
                 jb2.setBounds(200, 80, 100, 25);
+                jb2.setBackground(Color.GREEN);
                 // tf.setB
                 panel.add(lb);
                 panel.add(tf);
@@ -119,21 +151,37 @@ public class stego extends JFrame implements ActionListener {
                         //System.out.println("hghghghg");
                          try
                          {
-                        	 int returnVal = fc.showOpenDialog(stego.this);
+                             int returnVal = fc1.showOpenDialog(stego.this);
+                             
 
                              if (returnVal == JFileChooser.APPROVE_OPTION) {
-                                  file = fc.getSelectedFile();
+                                  file = fc1.getSelectedFile();
                                  //This is where a real application would open the file.
-                                //  tf.setText();
+                                 tf.setText(file.getName());
                                 
-                             }
-
-                        	 
-                             str=file.toString();
+                                
+                            }
+                            
+                             BufferedReader in = new BufferedReader(new FileReader(file));
+                            // if(in.readLine() == null){
+                           //  JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                          /// }
+                            // else {
+                             String line = in.readLine();
+                             if(line != null){
+                             while(line != null){
+                                 str += line;
+                                 line = in.readLine();
+                                }
+                             //str=file.toString();
+                            System.out.println(str);
                              steganography_and_encryption(str);
-                              //System.out.println(str);
-                             JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile\ndecipherfile");
-                                //     
+                             
+                             JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile.txt\nconfirm.txt");
+                            }
+                          else
+                            JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                             //     
                                 //System.out.println(str);
                     }
                     catch(Exception ex)
@@ -149,18 +197,27 @@ public class stego extends JFrame implements ActionListener {
 
         receiver.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent arg0) {
-                JFrame panel1 = new JFrame();
+            public void actionPerformed(ActionEvent arg1) {
+                JFrame panel1 = new JFrame("Decode");
+                Image icon = Toolkit.getDefaultToolkit().getImage("icon.png"); 
+                panel1.setIconImage(icon);  
+                 try {
+                     panel1.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("background.jpg")))));
+                    } catch (IOException n) {
+                        n.printStackTrace();
+                    }
                 JLabel lb1 = new JLabel("Cover Text....!!!");
                 lb1.setBounds(50, 20, 100, 30);
-
+                lb1.setFont(new Font("Serif", Font.BOLD, 14));
+                lb1.setForeground(Color.RED);
                 final JTextField tf1 = new JTextField(20);
                 tf1.setBounds(50, 50, 300, 20);
                 JButton jb3 = new JButton("RESET");
                 jb3.setBounds(50, 80, 100, 25);
-
-                JButton jb4 = new JButton("RUN");
+                jb3.setBackground(Color.YELLOW);
+                JButton jb4 = new JButton("Browse");
                 jb4.setBounds(200, 80, 100, 25);
+                jb4.setBackground(Color.GREEN);
                 // tf.setB
 
                 panel1.add(tf1);
@@ -172,7 +229,7 @@ public class stego extends JFrame implements ActionListener {
 
                 panel1.setLayout(null);
                 panel1.setVisible(true);
-                strtemp=str;
+                //strtemp=str;
                 jb3.addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
@@ -188,26 +245,38 @@ public class stego extends JFrame implements ActionListener {
                          try
                          {
                             
-                          //still to do  
-                        	 int returnVal = fc.showOpenDialog(stego.this);
+                             //still to do  
+                             int returnVal1 = fc2.showOpenDialog(stego.this);
 
-                             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                                  file = fc.getSelectedFile();
+                             if (returnVal1 == JFileChooser.APPROVE_OPTION) {
+                                  file1 = fc2.getSelectedFile();
                                  //This is where a real application would open the file.
-                                  tf1.setText(file.getName());
+                                  tf1.setText(file1.getName());
                                 
                              }
 
-                        	 
-                             String strdel=file.toString();
-                  //           steganography_and_encryption(str);
+                              BufferedReader in = new BufferedReader(new FileReader(file));
+                              
+                             String line = in.readLine();
+                             if(line != null){
+                             while(line != null){
+                                 strtemp += line;
+                                 line = in.readLine();
+                                }
+                               // strtemp=strtemp.replace("", " ").trim();
+                            // strtemp=file1.toString();
+                             //           steganography_and_encryption(str);
                               //System.out.println(str);
                             // JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile\ndecipherfile");
-                                //     
-                                //System.out.println(str);
-                       decrypt_and_decode(strtemp);
-                         JOptionPane.showMessageDialog(null, "Message is in Originalfile!");
-                        //JOptionPane.showMessageDialog(null,"This language just gets better and better!");
+                                   
+                               System.out.println("decoding starts here");
+                                decrypt_and_decode(strtemp);
+                                JOptionPane.showMessageDialog(null, "Message is in Originalfile!");
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                            }
+                                //JOptionPane.showMessageDialog(null,"This language just gets better and better!");
                                  }
                     catch(Exception ex)
                     {
@@ -257,23 +326,38 @@ public class stego extends JFrame implements ActionListener {
         };
 
         // these are the words considered as cover message
-        String[] ukwords1 = { "accessorise", "accessorised", "accessorises",
-                "accessorising", "acclimatisation", "acclimatise",
-                "acclimatised", "acclimatises", "acclimatising",
-                "accoutrements", "aeon", "aeons", "aerogramme", "aerogrammes",
-                "aeroplane", "aeroplanes ", "aesthete", "aesthetes",
-                "aesthetic", "aesthetically", "aesthetics", "aetiology",
-                "ageing", "aggrandisement", "agonise", "agonised", "agonises",
-                "agonising", "agonisingly", "almanack", "almanacks",
-                "aluminium", "amortisable", "amortisation", "amortisations",
-                "amortise", "amortised", "amortises", "amortising",
-                "amphitheatre", "amphitheatres", "anaemia", "anaemic",
-                "anaesthesia", "anaesthetic", "anaesthetics", "anaesthetise",
-                "anaesthetised", "anaesthetises", "anaesthetising",
-                "anaesthetist", "anaesthetists", "anaesthetize",
-                "anaesthetized", "anaesthetizes", "anaesthetizing", "analogue",
-                "analogues", "analyse", "analysed", "analyses", "analysing",
-                "anglicise", "anglicised", "anglicises"
+        String[] ukwords1 = {    "accessorise", "accessorising", "acclimatisation",
+                "acclimatise", "acclimatising", "aeon", "aerogramme", "aeroplane", "aesthete", "aesthetic",
+                "aesthetically", "aetiology", "ageing", "aggrandisement", "agonise", "agonised", "agonising",
+                "agonisingly", "almanack", "aluminium", "amortisable", "amortisation", "amortise", "amortising",
+                "agonising", "agonisingly", "almanack",
+                "aluminium", "amortisable", "amortisation",
+                "amortise", "amortising",
+                "amphitheatre", "anaemia", "anaemic",
+                "anaesthesia", "anaesthetic", "anaesthetise",
+                 "anaesthetising",
+                "anaesthetist", "anaesthetize",
+                "anaesthetized", "anaesthetizing", "analogue",
+                "analyse", "analysing",
+                "anglicise", "accessorise",
+                "appetiser",
+
+"appetising",
+"appetisingly",
+"arbour",
+"archaeological",
+"archaeologically",
+"archaeologist",
+"archaeology",
+"ardour",
+"armour",
+"armoured",
+"armoury",
+"artefact",
+"authorise",
+"authorising",
+"axe",
+"backpedalled"
 
         };
         String[] ukwords2 = { "backpedalled", "backpedalling", "bannister",
@@ -453,12 +537,9 @@ public class stego extends JFrame implements ActionListener {
         }
 
         // creating decipher file
-      /*  try {
-
+        try {
             File decipherfile = new File("Decipherfile.txt");
-
             FileWriter fw = new FileWriter(decipherfile);
-
             fw.write(decryptedText);
             fw.close();
             if (decipherfile.exists()) {
@@ -466,7 +547,7 @@ public class stego extends JFrame implements ActionListener {
             }
         } catch (IOException iox) {
             iox.printStackTrace();
-        }*/
+        }
    // originalvalue(str);
     }
     
@@ -478,11 +559,8 @@ public class stego extends JFrame implements ActionListener {
                  
                        
               /*  try {
-
             File decipherfile = new File("Decipherfile.txt");
-
             FileWriter fw = new FileWriter(decipherfile);
-
             fw.write(decryptedText);
             fw.close();
             if (decipherfile.exists()) {
@@ -491,7 +569,52 @@ public class stego extends JFrame implements ActionListener {
         } catch (IOException iox) {
             iox.printStackTrace();
         }*/
-        
+            String[] cover = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+                "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+                "w", "x", "y", "z", "!", "#", "$", "%", "&", "'", "(", ")",
+                "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5",
+                "6", "7", "8", "9", ":", ";", "<", "=", ">", "@", "[", "]",
+                "^", "_", "`", "{", "|", "}", "~"
+
+            };
+
+        // these are the words considered as cover message
+            String[] ukwords1 = {    "accessorise", "accessorising", "acclimatisation",
+                "acclimatise", "acclima", "acclimatising", "aeon", "aerogramme", "aeroplane", "aesthete", "aesthetic",
+                "aesthetically", "aetiology", "ageing", "aggrandisement", "agonise", "agonised", "agonising",
+                "agonisingly", "almanack", "aluminium", "amortisable", "amortisation", "amortise", "amortising",
+                "agonising", "agonisingly", "almanack",
+                "aluminium", "amortisable", "amortisation",
+                "amortise", "amortising",
+                "amphitheatre", "anaemia", "anaemic",
+                "anaesthesia", "anaesthetic", "anaesthetise",
+                 "anaesthetising",
+                "anaesthetist", "anaesthetize",
+                "anaesthetized", "anaesthetizing", "analogue",
+                "analyse", "analysing",
+                "anglicise", "accessorise",
+                "appetiser", "appetising", "appetisingly",
+                "arbour",
+                "archaeological",
+                "archaeologically",
+                "archaeologist",
+                "archaeology",
+                "ardour",
+                "armour",
+                "armoured",
+                "armoury",
+                "artefact",
+                "authorise",
+                "authorising",
+                "axe"
+
+            };
+            for (int i = 0; i < cover.length; i++) {
+
+            original = original.replace(ukwords1[i],cover[i]);
+
+        }
+        System.out.println("original message is: "+original);
         //original file generation
         try {
 
