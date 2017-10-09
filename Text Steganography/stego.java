@@ -46,11 +46,13 @@ public class stego extends JFrame implements ActionListener {
     // String inpstr="bhargav";
     private static String str = "";
     private static String strtemp = "";
+    private static String filename1 = "";
+    private static String filename2 = "";
     //final JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
     final JFileChooser fc1 = new JFileChooser("F:/java projects/steganography");
     final JFileChooser fc2 = new JFileChooser("F:/java projects/steganography");
     JTextField t2;
-    JButton sender, receiver, jb1, jb2;
+    JButton sender, receiver, jb1, jb2, jb3, jb4, run1, run2;
     JLabel lb,heading;
 
     public stego() {
@@ -127,17 +129,23 @@ public class stego extends JFrame implements ActionListener {
                 jb2 = new JButton("Browse");
                 jb2.setBounds(200, 80, 100, 25);
                 jb2.setBackground(Color.GREEN);
+                
+                run1 = new JButton("RUN");
+                run1.setBounds(125, 150, 100, 25);
+                run1.setBackground(Color.BLUE);
+                
                 // tf.setB
                 panel.add(lb);
                 panel.add(tf);
                 panel.add(jb1);
                 panel.add(jb2);
+                panel.add(run1);
                 panel.setSize(400, 400);
 
                 panel.setLayout(null);
                 panel.setVisible(true);
                 jb1.addActionListener(new ActionListener() {
-
+                    
                     public void actionPerformed(ActionEvent e) {
                         // TODO Auto-generated method stub
                             tf.setText("");
@@ -158,11 +166,11 @@ public class stego extends JFrame implements ActionListener {
                                   file = fc1.getSelectedFile();
                                  //This is where a real application would open the file.
                                  tf.setText(file.getName());
-                                
+                                filename1=file.getName();
                                 
                             }
                             
-                             BufferedReader in = new BufferedReader(new FileReader(file));
+                             /*BufferedReader in = new BufferedReader(new FileReader(file));
                             // if(in.readLine() == null){
                            //  JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
                           /// }
@@ -182,7 +190,7 @@ public class stego extends JFrame implements ActionListener {
                           else
                             JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
                              //     
-                                //System.out.println(str);
+                                //System.out.println(str);*/
                     }
                     catch(Exception ex)
                     {
@@ -191,7 +199,50 @@ public class stego extends JFrame implements ActionListener {
                                 "This language just gets better and better!");*/
                     }
                 });
+                run1.addActionListener(new ActionListener() {
+                    
+                    public void actionPerformed(ActionEvent e) {
+                        // TODO Auto-generated method stub
+                            if(filename1!=NULL){
+                                    try
+                                    {
+                                        
+                                        BufferedReader in = new BufferedReader(new FileReader(file));
+                                        // if(in.readLine() == null){
+                                //  JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                                        /// }
+                                        
+                                            String line = in.readLine();
+                                            if(line != null){
+                                                while(line != null){
+                                                    str += line;
+                                                    line = in.readLine();
+                                                }
+                                                //str=file.toString();
+                                                System.out.println(str);
+                                                steganography_and_encryption(str);
+                             
+                                                JOptionPane.showMessageDialog(null, "Sucessfully completed\nFiles Generated Are:\n\tcovertext.txt\ncipherfile.txt\nconfirm.txt");
+                                            }
+                                            else
+                                            JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                             //     
+                                //System.out.println(str);
+                            }
+                            catch(Exception ex)
+                            {
+                            }
+                            
+                           }
+                           else
+                        JOptionPane.showMessageDialog(null, "Choose a file inorder to encode!");
+                    
+                           
+                    }
+                    
+               });
             }
+            
 
         });
 
@@ -212,17 +263,21 @@ public class stego extends JFrame implements ActionListener {
                 lb1.setForeground(Color.RED);
                 final JTextField tf1 = new JTextField(20);
                 tf1.setBounds(50, 50, 300, 20);
-                JButton jb3 = new JButton("RESET");
+                jb3 = new JButton("RESET");
                 jb3.setBounds(50, 80, 100, 25);
                 jb3.setBackground(Color.YELLOW);
-                JButton jb4 = new JButton("Browse");
+                jb4 = new JButton("Browse");
                 jb4.setBounds(200, 80, 100, 25);
                 jb4.setBackground(Color.GREEN);
+                run2 = new JButton("RUN");
+                run2.setBounds(125, 150, 100, 25);
+                run2.setBackground(Color.BLUE);
                 // tf.setB
 
                 panel1.add(tf1);
                 panel1.add(jb3);
                 panel1.add(jb4);
+                panel1.add(run2);
                 panel1.setSize(400, 400);
                 panel1.add(lb1);
                 panel1.setSize(400, 400);
@@ -252,10 +307,10 @@ public class stego extends JFrame implements ActionListener {
                                   file1 = fc2.getSelectedFile();
                                  //This is where a real application would open the file.
                                   tf1.setText(file1.getName());
-                                
+                                filename2=file1.getName();
                              }
 
-                              BufferedReader in = new BufferedReader(new FileReader(file));
+                             /* BufferedReader in = new BufferedReader(new FileReader(file));
                               
                              String line = in.readLine();
                              if(line != null){
@@ -276,14 +331,56 @@ public class stego extends JFrame implements ActionListener {
                             else{
                                 JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
                             }
-                                //JOptionPane.showMessageDialog(null,"This language just gets better and better!");
+                                //JOptionPane.showMessageDialog(null,"This language just gets better and better!");*/
                                  }
                     catch(Exception ex)
                     {
                     }
                     }
                 });
-
+                
+                run2.addActionListener(new ActionListener() {
+                    
+                    public void actionPerformed(ActionEvent e) {
+                        // TODO Auto-generated method stub
+                            if(filename2!=NULL){
+                                    try
+                                    {
+                                        
+                                        BufferedReader in = new BufferedReader(new FileReader(file));
+                                        // if(in.readLine() == null){
+                                //  JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                                        /// }
+                                        
+                                            String line = in.readLine();
+                                            if(line != null){
+                                                while(line != null){
+                                                    str += line;
+                                                    line = in.readLine();
+                                                }
+                                                //str=file.toString();
+                                               System.out.println("decoding starts here");
+                                decrypt_and_decode(strtemp);
+                                JOptionPane.showMessageDialog(null, "Message is in Originalfile!");
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "File is empty!!! choose another");
+                            }
+                             //     
+                                //System.out.println(str);
+                            }
+                            catch(Exception ex)
+                            {
+                            }
+                            
+                           }
+                           else
+                        JOptionPane.showMessageDialog(null, "Choose a file inorder to encode!");
+                    
+                           
+                    }
+                    
+               });
             }
 
         });
@@ -326,38 +423,29 @@ public class stego extends JFrame implements ActionListener {
         };
 
         // these are the words considered as cover message
-        String[] ukwords1 = {    "accessorise", "accessorising", "acclimatisation",
-                "acclimatise", "acclimatising", "aeon", "aerogramme", "aeroplane", "aesthete", "aesthetic",
-                "aesthetically", "aetiology", "ageing", "aggrandisement", "agonise", "agonised", "agonising",
-                "agonisingly", "almanack", "aluminium", "amortisable", "amortisation", "amortise", "amortising",
+        String[] ukwords1 = {   
+                "accessorise", "accessorising", "acclimatisation",
+                "acclimatise", "acclimatising", "aeon", 
+                "aerogramme", "aeroplane", "aesthete",
+                "aesthetic", "aesthetically", "aetiology", 
+                "ageing", "aggrandisement", "agonise", 
+                "agonised", "agonising", "agonisingly", 
+                "almanack", "aluminium", "amortisable", 
+                "amortisation", "amortise", "amortising",
                 "agonising", "agonisingly", "almanack",
                 "aluminium", "amortisable", "amortisation",
-                "amortise", "amortising",
-                "amphitheatre", "anaemia", "anaemic",
-                "anaesthesia", "anaesthetic", "anaesthetise",
-                 "anaesthetising",
-                "anaesthetist", "anaesthetize",
-                "anaesthetized", "anaesthetizing", "analogue",
-                "analyse", "analysing",
-                "anglicise", "accessorise",
-                "appetiser",
-
-"appetising",
-"appetisingly",
-"arbour",
-"archaeological",
-"archaeologically",
-"archaeologist",
-"archaeology",
-"ardour",
-"armour",
-"armoured",
-"armoury",
-"artefact",
-"authorise",
-"authorising",
-"axe",
-"backpedalled"
+                "amortise", "amortising","amphitheatre", 
+                "anaemia", "anaemic","anaesthesia",
+                "anaesthetic", "anaesthetise", "anaesthetising",
+                "anaesthetist", "anaesthetize","anaesthetized",
+                "anaesthetizing", "analogue","analyse", 
+                "analysing", "anglicise", "accessorise",
+                "appetiser","appetising","appetisingly",
+                "arbour","archaeological","archaeologically",
+                "archaeologist","archaeology","ardour",
+                "armour","armoured","armoury",
+                "artefact","authorise","authorising",
+                "axe","backpedalled"
 
         };
         String[] ukwords2 = { "backpedalled", "backpedalling", "bannister",
